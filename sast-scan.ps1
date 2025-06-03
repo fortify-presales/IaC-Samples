@@ -27,7 +27,7 @@ if ([string]::IsNullOrEmpty($AppName)) { throw "Application Name has not been se
 # Run the translation and scan
 
 Write-Host Running translation...
-& sourceanalyzer $ScanSwitches $JVMArgs -b "$AppName" -exclude "bin" "."
+& sourceanalyzer $ScanSwitches $JVMArgs -b "$AppName" "."
 
 Write-Host Running scan...
 & sourceanalyzer $ScanSwitches $JVMArgs -b "$AppName" -debug -verbose `
