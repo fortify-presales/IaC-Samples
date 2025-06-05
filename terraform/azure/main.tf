@@ -15,6 +15,19 @@ provider "azurerm" {
   features {}
 }
 
+# Creat a Storage Account
+resource "azurerm_storage_account" "tfexample" {
+  name                     = "myterraformstorageacct"
+  resource_group_name      = azurerm_resource_group.tfexample.name
+  location                 = azurerm_resource_group.tfexample.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  
+  tags = {
+    environment = "my-terraform-env"
+  }
+}
+
 # Create a Resource Group if it doesn’t exist
 resource "azurerm_resource_group" "tfexample" {
   name     = "my-terraform-rg"
@@ -98,6 +111,23 @@ resource "azurerm_network_interface" "tfexample" {
 resource "azurerm_network_interface_security_group_association" "tfexample" {
   network_interface_id      = azurerm_network_interface.tfexample.id
   network_security_group_id = azurerm_network_security_group.tfexample.id
+}
+
+# Create a MySQL Server
+resource "azurerm_mysql_server" "tfexample" {
+  name                = "my-terraform-mysql-server"
+  resource_group_name = azurerm_resource_group.tfexample.name
+  location            = azurerm_resource_group.tfexample.location
+  version             = "5.7"
+  administrator_login = "mysqladmin"
+  administrator_login_password = "Password1234!"
+  sku_name            = "B_Gen5_1"
+  ssl_enforcement_enabled = false
+  public_network_access_enabled = true
+
+  tags = {
+    environment = "my-terraform-env"
+  }
 }
 
 # Create a Virtual Machine
